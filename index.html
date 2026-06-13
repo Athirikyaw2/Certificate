@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Verification - Technology & Knowledge Hub</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; padding: 40px; text-align: center; }
+.container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+h2 { color: #1a365d; margin-bottom: 20px; }
+input { width: 80%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; text-align: center; }
+button { background-color: #2b6cb0; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+button:hover { background-color: #2c5282; }
+.result-box { margin-top: 25px; padding: 15px; border-radius: 5px; display: none; text-align: left; }
+.success { background-color: #c6f6d5; color: #22543d; border: 1px solid #38a169; }
+.error { background-color: #fed7d7; color: #742a2a; border: 1px solid #e53e3e; text-align: center; }
+.data-row { margin: 8px 0; font-size: 15px; border-bottom: 1px dashed #cbd5e0; padding-bottom: 5px; }
+.data-label { font-weight: bold; color: #4a5568; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Technology & Knowledge Hub</h2>
+<p>Verify Student Certificate Authenticity</p>
+
+<input type="text" id="certIdInput" placeholder="Enter Certificate ID (e.g., TKH-2026-001)">
+<br>
+<button onclick="verifyCertificate()">Verify Now</button>
+
+<div id="result" class="result-box"></div>
+</div>
+
+<script>
+// 1. ဆရာမတို့ရဲ့ ကျောင်းသား Database (ဒေတာအသစ်ရှိရင် အောက်မှာ ဆက်တိုးသွားရုံပါပဲ)
+const certificateDatabase = {
+"TKH-2026-001": {
+name: "Aung Thu",
+course: "Web Development Foundation (HTML & CSS)",
+issueDate: "April 1, 2025",
+status: "Successfully Completed",
+cefrLevel: "Aligned with CEFR B1 (Tech English)"
+},
+"TKH-2026-002": {
+name: "Ma Thiri",
+course: "Python Programming Basics",
+issueDate: "May 15, 2026",
+status: "Successfully Completed",
+cefrLevel: "Aligned with CEFR A2"
+}
+};
+
+// 2. Verification Function
+function verifyCertificate() {
+const inputId = document.getElementById("certIdInput").value.trim();
+const resultBox = document.getElementById("result");
+
+// Input အလွတ်ဖြစ်နေရင်
+if (inputId === "") {
+alert("Please enter a valid Certificate ID.");
+return;
+}
+
+// Database ထဲမှာ ID ရှိမရှိ စစ်ဆေးခြင်း
+if (certificateDatabase[inputId]) {
+const student = certificateDatabase[inputId];
+resultBox.className = "result-box success";
+resultBox.innerHTML = `
+<h3 style="margin-top:0; text-align:center; color:#22543d;">✓ Verified Certificate</h3>
+<div class="data-row"><span class="data-label">Student Name:</span> ${student.name}</div>
+<div class="data-row"><span class="data-label">Course:</span> ${student.course}</div>
+<div class="data-row"><span class="data-label">Issue Date:</span> ${student.issueDate}</div>
+<div class="data-row"><span class="data-label">CEFR Mapping:</span> ${student.cefrLevel}</div>
+<div class="data-row"><span class="data-label">Status:</span> <span style="color:#38a169; font-weight:bold;">${student.status}</span></div>
+`;
+resultBox.style.display = "block";
+} else {
+// ID ရှာမတွေ့ရင် Error ပြရန်
+resultBox.className = "result-box error";
+resultBox.innerHTML = `<strong>⚠️ Invalid Certificate ID</strong><br>No record found for this ID in our hub.`;
+resultBox.style.display = "block";
+}
+}
+</script>
+
+</body>
+</html>
+
